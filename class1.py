@@ -2,28 +2,23 @@ import os
 import numpy as np
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
-# Function to load images and labels from directory without explicit labels
-def load_data(data_dir):
+# Function to load images and labels from a flat directory
+def load_flat_data(data_dir):
     image_files = []
-    labels = []
 
-    # Iterate over the directory and subdirectories
-    for index, folder_name in enumerate(os.listdir(data_dir)):
-        folder_path = os.path.join(data_dir, folder_name)
-        if os.path.isdir(folder_path):
-            for image_name in os.listdir(folder_path):
-                image_files.append(os.path.join(folder_path, image_name))
-                labels.append(index)  # Use folder index as label
+    # Iterate over all files in the directory
+    for file_name in os.listdir(data_dir):
+        file_path = os.path.join(data_dir, file_name)
+        if os.path.isfile(file_path):  # Ensure it's a file
+            image_files.append(file_path)
 
-    # Check the number of images and labels loaded
+    # Check the number of images loaded
     print("Number of images:", len(image_files))
-    print("Number of labels:", len(labels))
 
     # Load images into numpy arrays
     images = []
@@ -33,11 +28,11 @@ def load_data(data_dir):
         img = tf.image.resize(img, (224, 224))
         images.append(img.numpy())
 
+    # Dummy labels (e.g., all set to 0 since no explicit labels exist)
     images = np.array(images)
-    labels = np.array(labels)
+    labels = np.zeros(len(images))  # Replace with actual labels if available
 
     return images, labels
-
 
 # Function to create a CNN model
 def create_model(input_shape, num_classes):
@@ -56,12 +51,13 @@ def create_model(input_shape, num_classes):
 
     return model
 
+# Specify your directory
+data_dir = './images'  # Update with the correct path to your images
 
 # Load data
-data_dir = './images'  # Update with the correct path to your images
-images, labels = load_data(data_dir)
+images, labels = load_flat_data(data_dir)
 
-# Check the loaded data
+# Check loaded data
 print("Number of images:", len(images))
 print("Number of labels:", len(labels))
 
