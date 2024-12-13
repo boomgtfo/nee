@@ -8,7 +8,6 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 
-
 # Function to load images and labels from directory without explicit labels
 def load_data(data_dir):
     image_files = []
