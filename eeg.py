@@ -66,7 +66,7 @@ print(f"Confusion Matrix:\n{conf_matrix}")
 class_report = classification_report(y_test, y_pred)
 print(f"Classification Report:\n{class_report}")
 
-# Fit a Gaussian distribution
+# Fit a Gaussian distribution to the first feature (onset)
 mu, std = np.mean(data_scaled[:, 0]), np.std(data_scaled[:, 0])
 
 # Generate some Gaussian-distributed data points
@@ -79,7 +79,7 @@ plt.plot(x, p, 'k-', linewidth=2)
 plt.title('Fitted Gaussian Distribution')
 plt.show()
 
-# Fit a Laplace distribution
+# Fit a Laplace distribution to the first feature (onset)
 loc, scale = laplace.fit(data_scaled[:, 0])
 
 # Generate some Laplace-distributed data points
@@ -90,4 +90,5 @@ p_laplace = laplace.pdf(x_laplace, loc, scale)
 plt.figure()
 plt.plot(x_laplace, p_laplace, 'k-', linewidth=2)
 plt.title('Fitted Laplace Distribution')
+
 plt.show()
